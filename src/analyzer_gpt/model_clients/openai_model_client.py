@@ -5,7 +5,7 @@ from src.analyzer_gpt.configs.constants import MODEL
 
 load_dotenv()
 
-def get_model_client():
+def getModelClient():
     
     api_key = os.getenv("OPENAI_API_KEY")
     
