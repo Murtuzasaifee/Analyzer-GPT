@@ -1,5 +1,5 @@
 from autogen_agentchat.agents import AssistantAgent
-from src.analyzer_gpt.prompts.data_analyzer_prompt import DATA_ANAYLZER_PROMPT
+from src.analyzer_gpt.prompts.data_analyzer_prompt import DATA_ANALYZER_PROMPT
 
 def getDataAnalyzerAgent(model_client):
     
@@ -7,7 +7,7 @@ def getDataAnalyzerAgent(model_client):
         name='DataAnalyzerAgent',
         description="An expert agent that analyzes data using code execution.",
         model_client=model_client,
-        system_message=DATA_ANAYLZER_PROMPT
+        system_message=DATA_ANALYZER_PROMPT
     )
 
     return data_analyzer_agent

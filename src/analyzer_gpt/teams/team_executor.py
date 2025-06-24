@@ -7,27 +7,31 @@ from src.analyzer_gpt.agents.data_analyzer_agent import getDataAnalyzerAgent
 from autogen_agentchat.messages import TextMessage
 from autogen_agentchat.base import TaskResult
 
-async def get_team_and_docker():
+async def get_team(docker):
     
     model_client = getModelClient()
-    data_analyzer_agent = getDataAnalyzerAgent(model_client)
     
-    docker_executor = getDockerExecutor()
-    code_executor_agent = getCodeExecutorAgent(docker_executor)
+    data_analyzer_agent = getDataAnalyzerAgent(model_client)
+    code_executor_agent = getCodeExecutorAgent(docker)
     
     data_analyzer_team = getDataAnalyzerTeam(data_analyzer_agent, code_executor_agent)
     
-    return data_analyzer_team, docker_executor
+    return data_analyzer_team
 
-async def run_team(task):
+
+async def runTeam(task, team_state):
    
     try:
         
-        team,docker = await get_team_and_docker()
-        task = task
-
-        await startDockerExecutor(docker)
-
+        docker = getDockerExecutor()
+        await startDockerExecutor(docker) 
+       
+        team = await get_team(docker)
+        
+        ## Load Team Previous State
+        if team_state is not None:
+            await team.load_state(team_state)
+       
         async for message in team.run_stream(task = task):
             print('='*50)
             if isinstance(message, TextMessage):
@@ -44,3 +48,6 @@ async def run_team(task):
 
     finally:
         await stopDockerExecutor(docker)
+        
+def save_team_state(team):
+    return team.save_state()

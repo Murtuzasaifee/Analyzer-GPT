@@ -1,15 +1,15 @@
 import asyncio
-from src.analyzer_gpt.teams.team_executor import run_team
+from src.analyzer_gpt.teams.team_executor import runTeam
 from src.analyzer_gpt.streamlit.app import load_app
 
 
 async def main():
     ## Run team via CLI
-    task = 'Analyse from titanic dataset the relationship between age and survival'
-    await run_team(task)
+    # task = 'Analyse from titanic dataset the relationship between age and survival'
+    # await run_team(task)
     
-    ## Run team via Streamlit
-    # await load_app()
+    # Run team via Streamlit
+    await load_app()
     
     
 
